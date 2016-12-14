@@ -6,7 +6,7 @@ TimeTracker is a basic application provides a fully-functioning foundation for c
 ### Deploy
 
 <p align=center>
-<a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t41000001Xc74" target="_blank">
+<a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t41000001Xbyj" target="_blank">
 <img src="./docs/images/dts_light.png" alt="Deploy to Salesforce" height="50px"/>
 </a>
 &nbsp;&nbsp;&nbsp;
