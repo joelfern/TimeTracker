@@ -1,0 +1,88 @@
+{
+  "name": "tt_timesheet__c",
+  "plural": "Timesheets",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "postgresql": {
+    "schema": "salesforce"
+  },
+  "properties": {
+    "pg_id__c": {
+      "type": "number",
+	  "id": true
+    },
+    "employee__r__pg_id__c": {
+      "type": "number",
+      "required": true
+    },
+    "start__c": {
+      "type": "date",
+      "required": true
+    },
+    "createddate": {
+      "type": "string"
+    },
+    "systemmodstamp": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "status__c": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+	  "entries": {
+		  "type": "hasMany",
+		  "model": "tt_entry__c",
+		  "foreignKey": "timesheet__r__pg_id__c"
+	  },
+	  "employee": {
+		  "type": "belongsTo",
+		  "model": "contact",
+		  "foreignKey": "employee__r__pg_id__c"
+	  }
+  },
+  "acls": [
+	{
+		"accessType": "*",
+		"principalType": "ROLE",
+		"principalId": "$everyone",
+		"permission": "DENY"
+	},
+	{
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "getMyTimesheet"
+    },
+	{
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "createCurrentTimesheet"
+    },
+	{
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "getMyTimesheets"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "submitMyTimesheet"
+    }
+  ],
+  "methods": {}
+}

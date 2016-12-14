@@ -1,0 +1,186 @@
+<div id="project-page" [class.edit-mode]="editMode">
+	<div *ngIf="!loading && contactIdToEndUserMap && accounts && contacts" (panright)="checkPan($event)">
+		<div class="page-level-error-alert" *ngIf="errorMessages && errorMessages.length" style="margin-top: 80px;">
+			<span class="alert-title">
+				<span class="glyphicon glyphicon-exclamation-sign alert-glyphicon" aria-hidden="true"></span>ERROR
+			</span>
+			<ul>
+				<li *ngFor="let error of errorMessages">
+					{{error}}
+				</li>
+			</ul>
+		</div>
+		<div *ngIf="project && !projectNotFound">
+			<div class="project-header-container"
+				[class.animate-slide-in]="animateIn"
+				[class.animate-slide-out]="animateOut"
+				[class.out-of-view]="outOfView"
+				[class.animate-expand]="editMode"
+				[class.animate-collapse]="leavingEditMode"
+				(swipedown)="toggleEditMode(editMode);"
+				(swipeup)="toggleEditMode(!editMode);"
+			>
+				<button class="button-primary project-back-button desktop" (click)="clickBack($event);" *ngIf="!editMode">Back</button>
+				<button class="button-primary project-deactivate-button desktop" (click)="showDeactivateConfirmation = true;" *ngIf="!editMode">Deactivate</button>
+				<!-- desktop header -->
+				<div class="project-header desktop">
+					<div class="project-info">
+						<span class="project-name">{{project.name}}</span>
+						<div class="project-sub-info">
+							<span class="project-account">{{accounts[project.account__r__pg_id__c].name}}</span><br />
+							<span class="project-times">
+								<span *ngIf="project.start__c && !project.end__c">Start: {{project.localStart | date}}</span>
+								<span *ngIf="!project.start__c && project.end__c">End: {{project.localEnd | date}}</span>
+								<span *ngIf="project.start__c && project.end__c">{{project.localStart | date}} &#x2013; {{project.localEnd | date}}</span>
+								<span *ngIf="!project.start__c && !project.end__c">Dates unspecified</span>
+							</span>
+						</div>
+					</div>
+					<div class="project-header-button">
+						<span class="glyphicon glyphicon-pencil" (click)="toggleEditMode();"></span>
+					</div>
+					<div class="project-edit-fields" *ngIf="editMode">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group">
+									<span class="input-group-addon">Name</span>
+									<input type="text" class="form-control" [(ngModel)]="projectToEdit.name">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group new-project-account">
+									<span class="input-group-addon">Account</span>
+									<typeahead
+										[inputConfiguration]="typeaheadConfiguration.inputs"
+										[options]="accountList"
+										[initialValue]="accounts[project.account__r__pg_id__c].name"
+										(onSelect)="typeaheadConfiguration.outputs.onSelect($event)">
+									</typeahead>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="input-group">
+									<span class="input-group-addon">Start</span>
+									<input type="date" class="form-control" [(ngModel)]="projectToEdit.start__c">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="input-group">
+									<span class="input-group-addon">End</span>
+									<input type="date" class="form-control" [(ngModel)]="projectToEdit.end__c">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="validation-error pull-left" *ngIf="validationError">{{validationError}}</div>
+								<div class="action-button pull-right" (click)="updateProject();">SAVE</div>
+								<div class="action-button pull-right" (click)="toggleEditMode();">CANCEL</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- mobile header -->
+				<div class="project-header mobile">
+					<table>
+						<tr>
+							<td class="header-button">
+								<span class="glyphicon glyphicon-menu-left action-button" aria-hidden="true" [class.disabled]="selectedTab === 0" (click)="clickBack($event);" *ngIf="!editMode"></span>
+							</td>
+							<td class="project-info-container">
+								<span class="project-name">
+									{{project.name}}
+								</span>
+								<br />
+								{{accounts[project.account__r__pg_id__c].name}}
+							</td>
+							<td class="header-button">
+								<span class="glyphicon glyphicon-pencil action-button" aria-hidden="true" (click)="toggleEditMode();"></span>
+							</td>
+						</tr>
+						<!--<tr>
+							<td class="edit-button" colspan="3">
+							</td>
+						</tr>-->
+					</table>
+					<div class="project-edit-fields" *ngIf="editMode">
+						<!--<input type="text" class="form-control" [(ngModel)]="projectToEdit.name" >
+						<br />
+						<typeahead
+							[inputConfiguration]="typeaheadConfiguration.inputs"
+							[options]="accountList"
+							[initialValue]="accounts[projectToEdit.account__r__pg_id__c].name"
+							(onSelect)="typeaheadConfiguration.outputs.onSelect($event)">
+						</typeahead>-->
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group">
+									<span class="input-group-addon">Name</span>
+									<input type="text" class="form-control" [(ngModel)]="projectToEdit.name">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="input-group new-project-account">
+									<span class="input-group-addon">Account</span>
+									<typeahead
+										[inputConfiguration]="typeaheadConfiguration.inputs"
+										[options]="accountList"
+										[initialValue]="accounts[project.account__r__pg_id__c].name"
+										(onSelect)="typeaheadConfiguration.outputs.onSelect($event)">
+									</typeahead>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="input-group">
+									<span class="input-group-addon">Start</span>
+									<input type="date" class="form-control" [(ngModel)]="projectToEdit.start__c">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="input-group">
+									<span class="input-group-addon">End</span>
+									<input type="date" class="form-control" [(ngModel)]="projectToEdit.end__c">
+								</div>
+							</div>
+						</div>
+						<div class="row actions">
+							<div class="col-sm-12">
+								<div class="validation-error pull-left" *ngIf="validationError">{{validationError}}</div>
+								<div class="action-button pull-left" (click)="showDeactivateConfirmation = true;">DEACTIVATE</div>
+								<div class="action-button pull-right" (click)="updateProject();">SAVE</div>
+								<div class="action-button pull-right" (click)="toggleEditMode();">CANCEL</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="project-page-components" id="project-page-components" *ngIf="project" [class.no-scroll]="dragging">
+				<project-approvers [project]="project" [contactIdToEndUserMap]="contactIdToEndUserMap" [contacts]="contacts" (onDragging)="dragging = $event"></project-approvers>
+				<contributors [project]="project" [contactIdToEndUserMap]="contactIdToEndUserMap" [contacts]="contacts"></contributors>
+			</div>
+			<div class="project-curtain" [hidden]="editMode" [class.animate-fade-in]="editMode" [class.animate-fade-out]="leavingEditMode">
+			</div>
+		</div>
+		<div *ngIf="projectNotFound">
+			<div class="empty-set-alert" style="margin-top: 40px;">Project not found. Click <a (click)="clickBack();">here</a> to go back to the project list page.</div>
+		</div>
+	</div>
+	<preloader *ngIf="loading"></preloader>
+</div>
+<confirmation-modal
+	*ngIf="showDeactivateConfirmation"
+	[title]="deactivateConfirmation.title"
+	[body]="deactivateConfirmation.body"
+	[confirm]="deactivateConfirmation.confirm"
+	[reject]="deactivateConfirmation.reject"
+	[name]="deactivateConfirmation.name"
+	(onResponse)="handleConfirmation($event);">
+</confirmation-modal>

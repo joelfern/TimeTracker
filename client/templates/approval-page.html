@@ -1,0 +1,56 @@
+<div id="approval-page" [style.padding-top]="pagePaddingTop">
+	<div id="filters" *ngIf="entryApprovalEmployees && approverProjects && dateOptions">
+		<tag-combobox [options]="comboboxOptions" [dates]="dateOptions" [datePreText]="'Week of '" [placeholder]="'Filter'" (onSelect)="setFilters($event)"></tag-combobox>
+	</div>
+	<div>
+		<div *ngIf="successMessage" class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" aria-label="Close" (click)="clearMessages()"><span aria-hidden="true">&times;</span></button>
+			<strong>
+				<span class="glyphicon glyphicon-ok alert-glyphicon" aria-hidden="true"></span>
+			</strong>
+			{{successMessage}}
+		</div>
+		<div class="page-level-error-alert" *ngIf="errorMessages && errorMessages.length">
+			<span class="alert-title">
+				<span class="glyphicon glyphicon-exclamation-sign alert-glyphicon" aria-hidden="true"></span>ERROR
+			</span>
+			<ul>
+				<li *ngFor="let error of errorMessages">
+					{{error}}
+				</li>
+			</ul>
+		</div>
+		<div *ngIf="!errorMessages || !errorMessages.length">
+			<approval-group *ngIf="entryApprovals && filteredApprovals && filteredApprovals.length && approverProjectKeys.length" 
+				[approvals]="filteredApprovals" 
+				[projects]="approverProjects" 
+				[filters]="approvalFilters" 
+				[expanded]="true" 
+				[employees]="entryApprovalEmployees" 
+				[timesheets]="timesheetMap" 
+				(onApprove)="approve($event)" 
+				(onReject)="handleReject($event)">
+			</approval-group>
+			<div *ngIf="entryApprovals && entryApprovalEmployees && approverProjectKeys.length">
+				<approval-group *ngFor="let employee of entryApprovalEmployeeKeys"
+					[approvals]="filteredApprovalsByEmployee[employee]"
+					[employee]="entryApprovalEmployees[employee]"
+					[projects]="approverProjects"
+					[filters]="approvalFilters"
+					(onApprove)="approve($event)"
+					(onReject)="handleReject($event)">
+				</approval-group>
+			</div>
+			<div *ngIf="(!approverProjectKeys.length && !loading)" class="empty-set-alert">
+				You are not an approver for any projects.
+			</div> 
+			<div *ngIf="(approverProjectKeys.length && !entryApprovals && !loading)" class="empty-set-alert">
+				There are no entries awaiting your approval at this time.
+			</div>
+			<div *ngIf="entryApprovals && !loading && (filteredApprovals && !filteredApprovals.length)" class="empty-set-alert">
+				The selected filters did not yield any entries awaiting your approval.
+			</div>
+		</div>
+		<preloader *ngIf="loading"></preloader>
+	</div>
+</div>

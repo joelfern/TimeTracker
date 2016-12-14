@@ -1,0 +1,47 @@
+<div>
+	<div *ngIf="timesheetNotFound" class="empty-set-alert" style="margin-top:50px;">
+		<p>Timesheet not found for id: {{timesheetPgID}}. Click <a [routerLink]="['/timesheets']">here</a> to go back to timesheet history.</p>
+	</div>
+	<div class="page-level-error-alert" *ngIf="errorMessages && errorMessages.length" style="margin-top: 30px;">
+		<span class="alert-title">
+			<span class="glyphicon glyphicon-exclamation-sign alert-glyphicon" aria-hidden="true"></span>ERROR
+		</span>
+		<ul>
+			<li *ngFor="let error of errorMessages">
+				{{error}}
+			</li>
+		</ul>
+	</div>
+	<!-- <div *ngIf="errorMessages && errorMessages.length" class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" aria-label="Close" (click)="clearMessages()"><span aria-hidden="true">&times;</span></button>
+		<strong>
+			<span class="glyphicon glyphicon-exclamation-sign alert-glyphicon" aria-hidden="true"></span>ERROR
+		</strong>
+		<div style="padding-top: 8px;">
+			<ul>
+				<li *ngFor="let error of errorMessages">
+					{{error}}
+				</li>
+			</ul>
+		</div>
+	</div> -->
+	<div *ngIf="currentTimesheet && entries && projects">
+		<div id="timesheet-info">
+			<span class="timesheet-hours">{{totalHours}} hours</span>
+			<button type="button" *ngIf="currentTimesheet.isEditable" class="button-primary pull-right" (click)="submitTimesheet()">
+				Submit
+			</button>
+			<span class="pull-right" *ngIf="!currentTimesheet.isEditable">{{currentTimesheet.status__c}}</span>
+		</div>
+		<timesheet-week
+			[entries]="entries"
+			[projects]="projects"
+			[timesheet]="currentTimesheet"
+			[hasContributorProjects]="hasContributorProjects"
+			[timesheetErrorMessages]="timesheetErrorMessages"
+			[timesheetSuccessMessage]="timesheetSuccessMessage"
+			(onUpdate)="updateEntries($event)">
+		</timesheet-week>
+	</div>
+</div>
+<preloader *ngIf="loading"></preloader>

@@ -1,0 +1,2 @@
+<entry-view [entry]="entry" [project]="projects[entry.project__r__pg_id__c]" [toggled]="toggled" [timesheet]="timesheet" [hasContributorProjects]="hasContributorProjects" *ngIf="entry && projects && projects[entry.project__r__pg_id__c] && !editMode" (onCardClick)="toggleEdit()"></entry-view>
+<entry-edit [entry]="entry" [projects]="projects" [toggled]="toggled" [timesheet]="timesheet" *ngIf="entry && projects && editMode && timesheet.isEditable" (onCancel)="handleCancel($event)" (onSave)="handleSave($event)"></entry-edit>

@@ -1,0 +1,23 @@
+<div class='day-of-week' [class.timesheet-success]="timesheetSuccessMessage" [class.timesheet-error]="timesheetErrorMessages.length" [class.animate]="animateAlert" *ngIf='projects && entriesForDay'>
+	<div class="timesheet-alert-container"> <!-- *ngIf="timesheetSuccessMessage || timesheetErrorMessages.length" -->
+      		<div class="timesheet-alert timesheet-alert-success" *ngIf="timesheetSuccessMessage">
+				<span>{{timesheetSuccessMessage}}</span>
+      		</div>
+      		<div class="timesheet-alert timesheet-alert-error" *ngIf="timesheetErrorMessages.length">
+				<span>{{timesheetErrorMessages[0]}} <a class="alert-clear-button" (click)="clearAlertMessages()">&times;</a></span>
+        	<!-- TODO: Button to show modal of all errors, only display one in toast -->
+      		</div>
+  	</div>
+	<div *ngIf="!hasContributorProjects" class="empty-set-alert" style="margin-top: 20px;">
+		You are not a contributor for any projects.
+	</div>
+	<div *ngIf="hasContributorProjects && !hasNewEntry && timesheet.isEditable" class="add-entry-button-container">
+		<a class="button-primary" (click)="createNewEntry()">+ Add Entry</a>
+	</div>
+	
+	<entry-container *ngFor='let entry of entriesForDay' [entry]='entry' [projects]='projects' [timesheet]='timesheet' [hasContributorProjects]='hasContributorProjects' (onSave)='saveEntry($event)' (onCancelNew)='handleCancelNew()'></entry-container>
+
+	<div *ngIf="!entriesForDay.length && hasContributorProjects" class="empty-set-alert" style="margin-top: 20px;">
+		No entries to display.
+	</div>
+</div>

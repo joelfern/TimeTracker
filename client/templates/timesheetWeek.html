@@ -1,0 +1,100 @@
+<div id='timesheet-week' [class.fix-nav]="scrollService.scrollY > fixNavPosition">
+	<tabset>
+		<tab [disabled]="isFutureDay(0)" [active]="isActiveTab(0)">
+			<template tabHeading>
+				<span (click)="handleTabClick($event, 0);" class="tab-heading-wrapper">
+					<div [class.rejected-day]="hasRejectedEntries(1)">
+						<div class="tab-day">MON</div>
+						<div class="tab-info"><span>{{ days[0] | date }}</span><span>{{ totalHoursPerDay[1] }} hours</span></div>
+					</div>
+				</span>
+			</template>
+		</tab>
+		<tab [disabled]="isFutureDay(1)" [active]="isActiveTab(1)">
+			<template tabHeading>
+				<span (click)="handleTabClick($event, 1);" class="tab-heading-wrapper">
+					<div [class.rejected-day]="hasRejectedEntries(2)">
+						<div class="tab-day">TUES</div>
+						<div class="tab-info"><span>{{ days[1] | date }}</span><span>{{ totalHoursPerDay[2] }} hours</span></div>
+					</div>
+				</span>
+			</template>
+		</tab>
+		<tab [disabled]="isFutureDay(2)" [active]="isActiveTab(2)">
+			<template tabHeading>
+				<span (click)="handleTabClick($event, 2);" class="tab-heading-wrapper">
+					<div [class.rejected-day]="hasRejectedEntries(3)">
+						<div class="tab-day">WED</div>
+						<div class="tab-info"><span>{{ days[2] | date }}</span><span>{{ totalHoursPerDay[3] }} hours</span></div>
+					</div>
+				</span>
+			</template>
+		</tab>
+		<tab [disabled]="isFutureDay(3)" [active]="isActiveTab(3)">
+			<template tabHeading>
+				<span (click)="handleTabClick($event, 3);" class="tab-heading-wrapper">
+					<div [class.rejected-day]="hasRejectedEntries(4)">
+						<div class="tab-day">THUR</div>
+						<div class="tab-info"><span>{{ days[3] | date }}</span><span>{{ totalHoursPerDay[4] }} hours</span></div>
+					</div>
+				</span>
+			</template>
+		</tab>
+		<tab [disabled]="isFutureDay(4)" [active]="isActiveTab(4)">
+			<template tabHeading>
+				<span (click)="handleTabClick($event, 4);" class="tab-heading-wrapper">
+					<div [class.rejected-day]="hasRejectedEntries(5)">
+						<div class="tab-day">FRI</div>
+						<div class="tab-info"><span>{{ days[4] | date }}</span><span>{{ totalHoursPerDay[5] }} hours</span></div>
+					</div>
+				</span>
+			</template>
+		</tab>
+		<tab [disabled]="isFutureDay(5)" [active]="isActiveTab(5)" [class.rejected-day]="hasRejectedEntries(6)">
+			<template tabHeading>
+				<span (click)="handleTabClick($event, 5);" class="tab-heading-wrapper">
+					<div [class.rejected-day]="hasRejectedEntries(6)">
+						<div class="tab-day">SAT</div>
+						<div class="tab-info"><span>{{ days[5] | date }}</span><span>{{ totalHoursPerDay[6] }} hours</span></div>
+					</div>
+				</span>
+			</template>
+		</tab>
+		<tab [disabled]="isFutureDay(6)" [active]="isActiveTab(6)">
+			<template tabHeading>
+				<span (click)="handleTabClick($event, 6);" class="tab-heading-wrapper">
+					<div [class.rejected-day]="hasRejectedEntries(0)">
+						<div class="tab-day">SUN</div>
+						<div class="tab-info"><span>{{ days[6] | date }}</span><span>{{ totalHoursPerDay[0] }} hours</span></div>
+					</div>
+				</span>
+			</template>
+		</tab>
+	</tabset>
+	<div class="page-button left" (click)="pageDays(-1)">
+		<span class="glyphicon glyphicon-chevron-left action-button" aria-hidden="true" [class.disabled]="selectedTab === 0"></span>
+	</div>
+	<div class="page-button right" (click)="pageDays(1)">
+		<span class="glyphicon glyphicon-chevron-right action-button" aria-hidden="true" [class.disabled]="selectedTab === numberOfDays - 1"></span>
+	</div>
+	<div (panleft)="handlePan($event, 1)" (panright)="handlePan($event, -1)">
+		<div class="days-of-week" [style.width]="getDaysOfWeekWidth()" [style.margin-left]="getDaysOfWeekMarginLeft()">
+			<div class="day-of-week-container" *ngFor="let day of days; let dayIndex = index" [class.not-selected]="dayIndex !== selectedTab" [class.disabled]="isFutureDay(dayIndex)">
+				<day-of-week
+					[entriesForDay]="getEntriesForDay(dayIndex)"
+					[projects]="projects"
+					[timesheet]="timesheet"
+					[date]="day"
+					[timesheetSuccessMessage]="timesheetSuccessMessage"
+					[timesheetErrorMessages]="timesheetErrorMessages"
+					[hasContributorProjects]="hasContributorProjects"
+					[animateAlert]="!alertAnimated"
+					(onUpdate)="updateEntries($event)"
+					(clearAlerts)="clearAlertMessages()"
+					>
+				</day-of-week>
+			</div>
+		</div>
+	</div>
+</div>
+

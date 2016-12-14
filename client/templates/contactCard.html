@@ -1,0 +1,37 @@
+<div class="card user-card" [class.active]="expanded" [class.animate]="hasBeenToggled">
+    <div [class.clickable]="!expanded" (click)="toggleExpanded();">
+        <span class="enduser-icon" *ngIf="endUser"><span class="glyphicon glyphicon-ok"></span></span>
+        <span class="name">{{contact.name}}</span>
+        <span class="info">
+            <span *ngIf="contact.account__pg_id__c">{{accounts[contact.account__pg_id__c].name}}<br /></span>
+            <span *ngIf="contact.email">{{contact.email}}</span>
+        </span>
+    </div>
+    <div *ngIf="expanded && !endUser">
+        <div class="user-card-buttons">
+            <button class="pull-left action-button" (click)="toggleExpanded();">Cancel</button>
+            <button class="pull-right action-button" (click)="addUser();">Add User</button>
+        </div>
+    </div>
+    <div *ngIf="expanded && endUser">
+        <div class="user-privileges not-editable" *ngIf="!editing">
+            <div class="checkbox-container"><span>Contributor</span> <input type="checkbox" [(ngModel)]="endUser.contributor" disabled></div>
+            <div class="checkbox-container"><span>Approver</span> <input type="checkbox" [(ngModel)]="endUser.approver" disabled></div>
+            <div class="checkbox-container"><span>Admin</span> <input type="checkbox" [(ngModel)]="endUser.admin" disabled></div>
+        </div>
+        <div class="user-privileges" *ngIf="editing">
+            <div class="checkbox-container"><span>Contributor</span> <input type="checkbox" [(ngModel)]="endUser.edits.contributor"></div>
+            <div class="checkbox-container"><span>Approver</span> <input type="checkbox" [(ngModel)]="endUser.edits.approver"></div>
+            <div class="checkbox-container" [class.not-editable]="endUser.id === securityService.getUserId()"><span>Admin</span> <input type="checkbox" [(ngModel)]="endUser.edits.admin" [disabled]="endUser.id === securityService.getUserId()"></div>
+        </div>
+        <div class="user-card-buttons" *ngIf="!editing">
+            <button class="pull-left action-button" (click)="deactivateUser();" [disabled]="endUser.id === securityService.getUserId()">Deactivate</button>
+            <button class="pull-right action-button" (click)="startEditing();">Edit</button>
+            <button class="pull-right action-button" (click)="toggleExpanded();">Cancel</button>
+        </div>
+        <div class="user-card-buttons" *ngIf="editing">
+            <button class="pull-left action-button" (click)="editing = false;">Cancel</button>
+            <button class="pull-right action-button" (click)="saveUser();">Save</button>
+        </div>
+    </div>
+</div>

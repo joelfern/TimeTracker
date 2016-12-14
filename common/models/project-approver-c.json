@@ -1,0 +1,65 @@
+{
+  "name": "tt_approver__c",
+  "plural": "ProjectApprovers",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "postgresql": {
+    "schema": "salesforce"
+  },
+  "properties": {
+    "pg_id__c": {
+      "type": "number",
+	  "id": true
+    },
+    "approval_stage__r__pg_id__c": {
+      "type": "number"
+    },
+    "systemmodstamp": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "contact__r__pg_id__c": {
+      "type": "number",
+      "required": true
+    },
+    "createddate": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+	  "approvalStage": {
+		  "type": "belongsTo",
+		  "model": "tt_approval_stage__c",
+		  "foreignKey": "approval_stage__r__pg_id__c"
+	  }
+  },
+  "acls": [
+	{
+		"accessType": "*",
+		"principalType": "ROLE",
+		"principalId": "$everyone",
+		"permission": "DENY"
+	},
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "createApprover"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "deleteApprover"
+    }
+  ],
+  "methods": {}
+}

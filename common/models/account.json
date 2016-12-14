@@ -1,0 +1,51 @@
+{
+  "name": "account",
+  "plural": "Accounts",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "postgresql": {
+    "schema": "salesforce"
+  },
+  "properties": {
+    "pg_id__c": {
+      "type": "number",
+	  "id": true
+    },
+    "createddate": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "systemmodstamp": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+	  "projects": {
+		  "type": "hasMany",
+		  "model": "tt_project__c",
+		  "foreignKey": "account__r__pg_id__c"
+	  }
+  },
+  "acls": [
+	{
+		"accessType": "*",
+		"principalType": "ROLE",
+		"principalId": "$everyone",
+		"permission": "DENY"
+	},
+	{
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "getAccountMap"
+    }
+  ],
+  "methods": {}
+}

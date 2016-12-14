@@ -1,0 +1,77 @@
+{
+  "name": "contact",
+  "plural": "Contacts",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "postgresql": {
+    "schema": "salesforce"
+  },
+  "properties": {
+    "pg_id__c": {
+      "type": "number",
+	  "id": true
+    },
+    "email": {
+      "type": "string"
+    },
+    "lastname": {
+      "type": "string",
+      "required": true
+    },
+    "createddate": {
+      "type": "string"
+    },
+    "account__pg_id__c": {
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    },
+    "photourl": {
+      "type": "string"
+    },
+    "firstname": {
+      "type": "string"
+    },
+    "systemmodstamp": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+	  "timesheets": {
+		  "type": "hasMany",
+		  "model": "tt_timesheet__c",
+		  "foreignKey": "employee__r__pg_id__c"
+	  },
+	  "approvals": {
+		  "type": "hasMany",
+		  "model": "tt_entry_approval__c",
+		  "foreignKey": "approving_contact__r__pg_id__c"
+	  },
+	  "endUser": {
+		  "type": "hasOne",
+		  "model": "EndUser",
+		  "foreignKey": "contact__r__pg_id__c"
+	  }
+  },
+  "acls": [
+	{
+		"accessType": "*",
+		"principalType": "ROLE",
+		"principalId": "$everyone",
+		"permission": "DENY"
+	},
+	{
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "getContactNamesMap"
+    }
+  ],
+  "methods": {}
+}

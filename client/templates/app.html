@@ -1,0 +1,110 @@
+<div scrollSpy>
+	<!--DESKTOP NAV-->
+	<div class="navigation-bar desktop">
+		<div class="navigation-group left">
+			<span class="navigation-item navigation-title"><img src="https://s3.amazonaws.com/uploads.hipchat.com/210086/2435002/cCfoxxsbSKJn6I6/tt_navbar.png"/></span>
+		</div>
+		<div class="navigation-group navigation-group-secondary right">
+			<div *ngIf="securityService.getTokenIsValid() && securityService.getEndUser()" 
+				class="navigation-dropdown navigation-item navigation-dropdown-toggle" 
+				(click)="toggleDropdown()" (mouseleave)="userDropdown = false">
+				<span class="navigation-dropdown-toggle">
+					<img class="profile-img-sml" />
+				<span *ngIf="securityService.getEndUser()" class="full-name">{{getUsersFullName()}}</span>
+				<span class="caret"></span>
+				</span>
+				<div class="navigation-dropdown-items" id="navigation-dropdown-items" *ngIf="userDropdown">
+					<a (click)="securityService.logout()">Logout</a>
+				</div>
+			</div>
+			<a *ngIf="!securityService.getTokenIsValid()" [routerLink]="['login']" [routerLinkActive]="['navigation-item-active']" class="navigation-item"><span>Login</span></a>
+		</div>
+		<div class="navigation-group navigation-group-secondary right">
+			<a *ngIf="securityService.getTokenIsValid() && securityService.getUserIsAdmin()" 
+				[routerLink]="['projects']" 
+				[routerLinkActive]="['navigation-item-active']" 
+				class="navigation-item">
+				<span>Projects</span>
+			</a>
+			<a *ngIf="securityService.getTokenIsValid() && securityService.getUserIsAdmin()" 
+				[routerLink]="['users']" 
+				[routerLinkActive]="['navigation-item-active']" 
+				class="navigation-item">
+				<span>Users</span>
+			</a>
+		</div>
+		<div *ngIf="securityService.getTokenIsValid() && securityService.getEndUser() && securityService.getEndUser().contact__r__pg_id__c" class="navigation-group right">
+			<a *ngIf="securityService.getUserIsContributor()" 
+				[routerLink]="['timesheet']" 
+				[routerLinkActive]="['navigation-item-active']" 
+				class="navigation-item">
+				<span>Log Time</span>
+			</a>
+			<a *ngIf="securityService.getUserIsContributor()" 
+				[routerLink]="['timesheets']" 
+				[routerLinkActive]="['navigation-item-active']" 
+				class="navigation-item">
+				<span>Timesheets</span>
+			</a>
+			<a *ngIf="securityService.getUserIsApprover()" 
+				[routerLink]="['approval']" 
+				[routerLinkActive]="['navigation-item-active']" 
+				class="navigation-item">
+				<span>Approve</span>
+			</a>
+		</div>
+	</div>
+	<!--MOBILE NAV-->
+	<div class="navigation-bar mobile">
+		<div class="navigation-group left">
+			<span class="navigation-item navigation-title"><img src="https://s3.amazonaws.com/uploads.hipchat.com/210086/2435002/cCfoxxsbSKJn6I6/tt_navbar.png"/></span>
+		</div>
+		<div class="navigation-group navigation-group-secondary right" *ngIf="securityService.getTokenIsValid() && securityService.getEndUser()">
+			<div 
+				class="navigation-dropdown navigation-item navigation-dropdown-toggle" 
+				(click)="toggleDropdown()" (mouseleave)="userDropdown = false">
+				<span class="navigation-dropdown-toggle">
+					<span class="glyphicon glyphicon-menu-hamburger"></span>
+				</span>
+				<div class="navigation-dropdown-items" id="navigation-dropdown-items" *ngIf="userDropdown">
+					<a *ngIf="securityService.getUserIsContributor()" 
+						[routerLink]="['timesheet']" 
+						[routerLinkActive]="['navigation-item-active']">
+						Log Time
+					</a>
+					<a *ngIf="securityService.getUserIsContributor()" 
+						[routerLink]="['timesheets']" 
+						[routerLinkActive]="['navigation-item-active']">
+						Timesheets
+					</a>
+					<a *ngIf="securityService.getUserIsApprover()" 
+						[routerLink]="['approval']" 
+						[routerLinkActive]="['navigation-item-active']">
+						Approve
+					</a>
+					<hr *ngIf="securityService.getUserIsApprover() || securityService.getUserIsContributor()">
+					<a *ngIf="securityService.getTokenIsValid() && securityService.getUserIsAdmin()" 
+						[routerLink]="['projects']" 
+						[routerLinkActive]="['navigation-item-active']">
+						Projects
+					</a>
+					<a *ngIf="securityService.getTokenIsValid() && securityService.getUserIsAdmin()" 
+						[routerLink]="['users']" 
+						[routerLinkActive]="['navigation-item-active']">
+						Users
+					</a>
+					<hr *ngIf="securityService.getTokenIsValid() && securityService.getUserIsAdmin()">
+					<a (click)="securityService.logout()">Logout</a>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Routed views go here -->
+<router-outlet></router-outlet>
+<!-- <div id='footer-bar'>
+	<p>
+		This is a sample footer
+	</p>
+</div> -->

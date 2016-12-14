@@ -1,0 +1,31 @@
+<div id="approval-stage" class="card stage-card" [class.stage-edit-card]="editMode" [attr.data-dragged-stage]="draggedStage">
+	<div class="error-message-container" *ngIf="errorMessage">
+		<div class="error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+	</div>
+	<div class="header stage-name">
+		<div class="title" *ngIf="!editMode || draggingStage">{{stage.display_name__c}}</div>
+		<div class="title stage-name-edit" *ngIf="editMode && !draggingStage"><input type="text" [(ngModel)]="stage.display_name__c"/></div>
+	</div>
+	<div class="contacts" [class.not-editable]="editMode">
+		<span *ngIf="approvers">
+			<div *ngFor="let approver of approvers" class="contact">
+				<span class="contact-name" [class.not-editable]="editMode">{{contacts[approver.contact__r__pg_id__c].lastname}}, {{contacts[approver.contact__r__pg_id__c].firstname}}</span>
+				<span class="remove-button" *ngIf="!editMode" (click)="removeApprover(approver);">&times;</span>
+			</div>
+		</span>
+		<div class="add-contact" [class.noContacts]="!approvers.length" *ngIf="!editMode">
+			<div class="new-contact-form" *ngIf="addingContact">
+				<typeahead
+					[inputConfiguration]="typeaheadConfiguration.inputs"
+					[options]="unusedContactArray"
+					(onSelect)="typeaheadConfiguration.outputs.onSelect($event)">
+				</typeahead>
+				<div class="new-contact-form-buttons">
+					<span class="glyphicon glyphicon-remove-circle" (click)="cancelAddContact();"></span>
+				</div>
+			</div>
+			<span class="add-button glyphicon glyphicon-plus" *ngIf="!addingContact && !editMode && approvers.length" (click)="toggleAddingContact();"></span>
+			<button class="add-first-button action-button" *ngIf="!addingContact && !editMode && !approvers.length" (click)="toggleAddingContact();">+ Add Approver</button>
+		</div>
+	</div>
+</div>

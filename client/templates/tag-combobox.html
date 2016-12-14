@@ -1,0 +1,41 @@
+<div class="combobox">
+	<div class="filter-inputs">
+		<input #text
+			[(ngModel)]="typedText"
+			[placeholder]="placeholder" 
+			(input)="handleInput($event, text.value);"
+			(keydown)="handleKeydown($event);"/>
+		<div class="search-button clickable" *ngIf="typedText" (click)="selectSearchText()">
+			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		</div>
+		<div class="date-button clickable" *ngIf="!addingDate && dateOptions && dateOptions.length > 0" (click)="addingDate = true;">
+			<b>+</b> <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+		</div>
+		<div class="date-button clickable" *ngIf="addingDate" (click)="addingDate = false;">
+			<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+		</div>
+	</div>
+	<div class="filter-button clickable" *ngFor="let selection of selections; let i = index" (click)="remove(i)">
+		<span [class]="createIconClass(selection.icon)" aria-hidden="true"></span>
+		<span class="filter-button-text" *ngIf="selection.type !== 'date'">{{selection.display}}</span>
+		<span class="filter-button-text" *ngIf="selection.type == 'date'">{{selection.display | date:"shortDate"}}</span>
+		<span class="glyphicon glyphicon-remove filter-button-remove" aria-hidden="true"></span>
+	</div>
+	<div class="date-button clickable" *ngIf="selections.length > 1" (click)="clear()">
+		CLEAR
+	</div>
+	<div *ngIf="typedText && !addingDate" class="options">
+		<div (click)="selectSearchText()" [class.selected-option]="selectedOption === -1" class="clickable result">Search for "{{typedText}}"</div>
+		<div *ngFor="let result of search(typedText); let i = index"
+			(click)="select(result)"
+			class="clickable result"
+			(mouseenter)="handleMouseenter(i);"
+			(mouseleave)="handleMouseleave(i);"
+			[class.selected-option]="checkSelectedOption(i)">
+				{{result.display}}
+		</div>
+	</div>
+	<div *ngIf="addingDate" class="date-options">
+		<div *ngFor="let option of dateOptions" (click)="selectDate(option)" class="clickable result result-date">{{datePreText}}{{option.display | date}}</div>
+	</div>
+</div>

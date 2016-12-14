@@ -1,0 +1,69 @@
+<div id="administration-page">
+	<div *ngIf="projects">
+		<div class="project-tools">
+			<div class="project-filter">
+				<typeahead
+					[inputConfiguration]="filterTypeaheadConfiguration.inputs"
+					[options]="filterOptions"
+					[inputText]="projectFilter"
+					[disabled]="addingNewProject"
+					(onSelect)="filterTypeaheadConfiguration.outputs.onSelect($event)"
+					(onChange)="filterTypeaheadConfiguration.outputs.onChange($event)">
+				</typeahead>
+			</div>
+			<button class="button-primary" (click)="addingNewProject = true;" [disabled]="addingNewProject" [class.disabled]="addingNewProject">+ New Project</button>
+		</div>
+		<div *ngIf="addingNewProject" class="card new-project-card">
+			<div class="error-message-container" *ngIf="validationError">
+				<div class="error-message" *ngIf="validationError">{{validationError}}</div>
+			</div>
+			<div class="title">New Project</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="input-group">
+						<span class="input-group-addon">Name</span>
+						<input type="text" class="form-control" [(ngModel)]="newProject['name']">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="input-group new-project-account">
+						<span class="input-group-addon">Account</span>
+						<typeahead
+							[inputConfiguration]="accountTypeaheadConfiguration.inputs"
+							[options]="accountList"
+							(onSelect)="accountTypeaheadConfiguration.outputs.onSelect($event)">
+						</typeahead>
+					</div>
+				</div>
+			</div>
+			<div class="row dates">
+				<div class="input-group">
+					<span class="input-group-addon">Start</span>
+					<input type="date" class="form-control" [(ngModel)]="newProject['start__c']">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">End</span>
+					<input type="date" class="form-control" [(ngModel)]="newProject['end__c']">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="action-button pull-right" (click)="addNewProject();">SAVE</div>
+					<div class="action-button pull-right" (click)="cancelNewProject();">CANCEL</div>
+				</div>
+			</div>
+		</div>
+		<div *ngIf="displayedProjectPgIDs.length">
+			<project-summary *ngFor="let project of displayedProjectPgIDs" [project]="projects[project]" (onClick)="onClick.emit($event);"></project-summary>
+		</div>
+		<div *ngIf="!projectPgIDs.length && !addingNewProject">
+			<div class="empty-set-alert">There are currently no projects.</div>
+		</div>
+		<div *ngIf="projectPgIDs.length && displayedProjectPgIDs.length < 1 && !addingNewProject">
+			<div class="empty-set-alert">No project names or accounts match your current filter.</div>
+		</div>
+	</div>
+	<preloader *ngIf="loading"></preloader>
+</div>

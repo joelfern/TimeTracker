@@ -1,0 +1,99 @@
+{
+  "name": "tt_entry__c",
+  "plural": "Entries",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "postgresql": {
+    "schema": "salesforce"
+  },
+  "properties": {
+    "pg_id__c": {
+      "type": "number",
+	  "id": true
+    },
+    "timesheet__r__pg_id__c": {
+      "type": "number",
+      "required": true
+    },
+    "project__r__pg_id__c": {
+      "type": "number",
+      "required": true
+    },
+    "createddate": {
+      "type": "string"
+    },
+    "final_approver__r__pg_id__c": {
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    },
+    "systemmodstamp": {
+      "type": "string"
+    },
+    "end__c": {
+      "type": "string"
+    },
+    "start__c": {
+      "type": "string",
+      "required": true
+    },
+    "status__c": {
+      "type": "string"
+    },
+    "description__c": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+	  "timesheet": {
+		  "type": "belongsTo",
+		  "model": "tt_timesheet__c",
+		  "foreignKey": "timesheet__r__pg_id__c"
+	  },
+	  "approvals": {
+		  "type": "hasMany",
+		  "model": "tt_entry_approval__c",
+		  "foreignKey": "entry__r__pg_id__c"
+	  },
+	  "project": {
+		  "type": "belongsTo",
+		  "model": "tt_project__c",
+		  "foreignKey": "project__r__pg_id__c"
+	  }
+  },
+  "acls": [
+	{
+		"accessType": "*",
+		"principalType": "ROLE",
+		"principalId": "$everyone",
+		"permission": "DENY"
+	},
+	{
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "upsertEntry"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "deleteEntry"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "getHistory"
+    }
+  ],
+  "methods": {}
+}

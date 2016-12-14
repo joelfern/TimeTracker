@@ -1,0 +1,38 @@
+<div id='login-page'>
+	<div id='login-container'>
+		<h1>Login</h1>
+		<div class="error-message-container" *ngIf="eventMessage">
+			<div class="error-message">{{eventMessage}}</div>
+		</div>
+		<form class="desktop">
+			<table>
+				<tr>
+					<td>Username</td>
+					<td><input type='email' (input)='username=$event.target.value' (keyup.enter)='login()'/></td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td><input type='password' (input)='password=$event.target.value' (keyup.enter)='login()'/></td>
+				</tr>
+				<tr>
+					<td><forgot-password></forgot-password></td>
+					<td><input type='button' value='Login' (click)='login()'/></td>
+				</tr>
+			</table>
+		</form>
+		<form class="mobile">
+			<input type='email' placeholder="Username" (input)='username=$event.target.value' (keyup.enter)='login()'/>
+			<input type='password' placeholder="Password" (input)='password=$event.target.value' (keyup.enter)='login()'/>
+			<table>
+				<tr>
+					<td>
+						<forgot-password></forgot-password>
+					</td>
+					<td>
+						<input type='button' value='Login' (click)='login()'/>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

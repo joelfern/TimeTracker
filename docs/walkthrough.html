@@ -1,0 +1,210 @@
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+
+<!-- Roboto Google font -->
+<link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+
+<title>TimeTracker</title>
+
+<script type="text/javascript">
+var menuOpen = false;
+function toggleNavMenu() {
+	document.getElementById("navMenu").style.display = (menuOpen ? "none" : "block");
+
+	if (!menuOpen) {
+		document.getElementById("menuToggle").className += "open";
+	} else {
+		document.getElementById("menuToggle").className = "";
+	}
+	menuOpen = !menuOpen;
+}
+</script>
+
+</head>
+<body>
+
+<div id="navbar">
+	<div id="navbar-elements">
+		<a href="index.html" id="navbar-logo"><img src="images/RS-SmallBug.png" /></a>
+		<div id="navbar-links">
+			<a href="setup.html"><span>Setup</span></a>
+			<a class="active"><span>Walkthrough</span></a>
+			<a href="https://radialspark.com/contact/"><span>Contact Us</span></a>
+		</div>
+	</div>
+	<div id="navbar-compact">
+		<a href="index.html" id="navbar-logo"><img src="images/RS-SmallBug.png" /></a>
+		<span onclick="toggleNavMenu();" id="menuToggle">&#9776;</span>
+		<div class="dropdown" id="navMenu">
+			<div class="item"><a href="setup.html">Setup</a></div>
+			<div class="item"><a href="walkthrough.html">Walkthrough</a></div>
+			<div class="item"><a href="https://radialspark.com/contact/">Contact Us</a></div>
+		</div>
+	</div>
+</div>
+
+<div id="header">
+	<div id="title"><img src="images/timetracker_logo_black.png" /></div>
+	<div id="subtitle">Walkthrough</div>
+	<div id="buttons">
+		<a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t36000000k9H4" target="_blank"><img src="images/dts_light.png" class="install-button" /></a>
+		<a href="https://heroku.com/deploy?template=https://github.com/radialspark/time-tracker" target="_blank"><img src="images/dth_light.png" class="install-button" /></a>
+		<a href="https://raw.githubusercontent.com/radialspark/time-tracker/master/heroku-connect-config.json" download><img src="images/hcc_light.png" class="install-button" /></a>
+	</div>
+</div>
+
+<div id="body">
+	<div class="block">
+		<span class="heading">Get Started</span>
+
+		<div class="content">
+			<p>This walkthrough will help you get started with TimeTracker. It assumes that you have <a href="setup.html">set up</a> the Salesforce and Heroku apps and have created a user for yourself.</p>
+		</div>
+
+		<div class="content">
+			<div class="subheading">1. Create Users</div>
+
+			<p class="subcontent">You can create users in the TimeTracker app for any of the Contacts in your Salesforce org. To do so, navigate to the <b>Manage Users</b> tab and click <b>ADD</b> on the rows of the Contacts for whom you want to create a TimeTracker user. Designate which role(s) these users should have (Contributor, Approver, and/or Admin) and click <b>SAVE</b>. A registration email will be sent to the email address on record (in Salesforce) for each new user to have them reset their password. Note: if your Salesforce org has many Contacts, you can search for them by name or account.</p>
+
+			<p class="subcontent">
+				<table>
+					<thead>
+						<td>Role</td>
+						<td>What a user with this role can do</td>
+					</thead>
+					<tr>
+						<td>Contributor</td>
+						<td>Log time entries; Submit weekly timesheets; Review past timesheets</td>
+					</tr>
+					<tr>
+						<td>Approver</td>
+						<td>View submitted entries for the projects they approve; Approve and reject entries</td>
+					</tr>
+					<tr>
+						<td>Admin</td>
+						<td>Create and configure projects; Create and assign users</td>
+					</tr>
+				</table>
+			</p>
+
+			<p class="subcontent"><img src="./images/create-users-page.png" /></p>
+
+			<p class="subcontent note">
+				<span class="icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				<span class="text">To demo all aspects of the app you must have at least one user with a contributor role, one with an approver role, and one with an admin role (they can be the same user if you like).</span>
+			</p>
+		</div>
+		<div class="top-link">
+			<a href="#header">Top &uarr;</a>
+		</div>
+
+		<div class="content">
+			<div class="subheading">2. Create Projects</div>
+
+			<p class="subcontent">Projects are used to categorize and track time entries. To create projects relevant to your business processes, navigate to the <b>Manage Projects</b> tab and click <b>New Project</b>.</p>
+
+			<p class="subcontent"><img src="./images/create-project.png" /></p>
+
+			<p class="subcontent note">
+				<span class="icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				<span class="text">A project requires a pre-existing Salesforce Account, so make sure you have an Account under which to save the project.</span>
+			</p>
+
+			<p class="subcontent note">
+				<span class="icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				<span class="text">Project start and end dates are not required.</span>
+			</p>
+		</div>
+		<div class="top-link">
+			<a href="#header">Top &uarr;</a>
+		</div>
+
+		<div class="content">
+			<div class="subheading">3. Configure Projects</div>
+
+			<p class="subcontent">After creating projects, assign personnel to work on them. You can add contributors and approvers.</p>
+
+			<p class="subcontent">If your business processes include an approval process, first configure the process by creating approval stages. Click on a project card from the <b>Manage Projects</b> tab and then click <b>ADD STAGE</b> in the <b>Approval Stages</b> section. Create a sequence of at least one approval stage and add approver(s) to each approval stage. Then, add contributor(s) to the project to enable users to log time under this project.</p>
+
+
+			<p class="subcontent"><img src="./images/configure-project.png" /></p>
+
+			<p class="subcontent note">
+				<span class="icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				<span class="text">If your business processes do not require an approval process, only add contributors to projects.</span>
+			</p>
+		</div>
+		<div class="top-link">
+			<a href="#header">Top &uarr;</a>
+		</div>
+
+		<div class="content">
+			<div class="subheading">4. Log Time Entries</div>
+
+			<p class="subcontent">Once you're logged in as a user who has a contributor role (given from <b>Manage Users</b> page) and who is assigned as a contributor to at least one project (assigned from the <b>Manage Projects</b> page), you can start logging time from the <b>Log Time</b> tab.</p>
+
+			<p class="subcontent">After creating some time entries, try submitting the page by clicking the <b>Submit</b> button in the upper right corner of the page. This will submit your week's worth of time entries for approval.</p>
+
+			<p class="subcontent"><img src="./images/log-time.png" /></p>
+		</div>
+		<div class="top-link">
+			<a href="#header">Top &uarr;</a>
+		</div>
+
+		<div class="content">
+			<div class="subheading">5. Approve and Reject Entries</div>
+
+			<p class="subcontent">Once you're logged in as a user who has an approver role and who is assigned as an approver to at least one project, you can view and approve time entries for your projects. When approving entries you are provided with the ability to filter by criteria such as project name, employee name, date range, description, etc. You have the option to approve or reject groups of entries all at once or individual entries one at a time.</p>
+
+			<p class="subcontent"><img src="./images/approve-page.png" /></p>
+
+			<p class="subcontent note">
+				<span class="icon"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+				<span class="text">Rejecting a time entry triggers an email to be sent to its owner (at the email address of their Salesforce contact) prompting them to view the problematic timesheet and correct the time entry.</span>
+			</p>
+		</div>
+		<div class="top-link">
+			<a href="#header">Top &uarr;</a>
+		</div>
+
+		<div class="content">
+			<div class="subheading">6. View and Resubmit Timesheets</div>
+
+			<p class="subcontent">You can view current and past timesheets by navigating to the <b>View Timesheets</b> tab.</p>
+
+			<p class="subcontent">Timesheets are read-only after they are submitted, with the exception of timesheets that need attention after a time entry is rejected by a project approver. Timesheets that need attention are editable and available for resubmission.</p>
+
+			<p class="subcontent"><img src="images/view-timesheets-page.PNG" /></p>
+		</div>
+		<div class="top-link">
+			<a href="#header">Top &uarr;</a>
+		</div>
+	</div>
+</div>
+
+<div id="footer">
+	<div id="info"><span>Copyright &copy; 2016 RadialSpark, All rights reserved.</span></div>
+</div>
+
+<script type="text/javascript">
+piAId = '133661';
+piCId = '8796';
+(function() {
+  function async_load(){
+    var s = document.createElement('script'); s.type = 'text/javascript';
+    s.src = ('https:' == document.location.protocol ? 'https://pi' : 'http://cdn') + '.pardot.com/pd.js';
+    var c = document.getElementsByTagName('script')[0]; c.parentNode.insertBefore(s, c);
+  }
+  if(window.attachEvent) { window.attachEvent('onload', async_load); }
+  else { window.addEventListener('load', async_load, false); }
+})();
+</script>
+
+</body>
+</html>

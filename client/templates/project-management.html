@@ -1,0 +1,39 @@
+<div id="project-management">
+	<div *ngIf="!loading">
+		<div class="page-level-error-alert" *ngIf="errorMessages && errorMessages.length" style="margin-top: 80px;">
+			<span class="alert-title">
+				<span class="glyphicon glyphicon-exclamation-sign alert-glyphicon" aria-hidden="true"></span>ERROR
+			</span>
+			<ul>
+				<li *ngFor="let error of errorMessages">
+					{{error}}
+				</li>
+			</ul>
+		</div>
+		<div *ngIf="accounts && contactIdToEndUserMap && contacts && accountList && accountList.length">
+			<div id="project-list" [class.animate-slide-out]="selectedProjectPgID && !animateSwitchBack" [class.animate-slide-in]="animateSwitchBack" [class.out-of-view]="selectedProjectPgID && !animateSwitchBack">
+				<administration-page
+					[accountList]="accountList"
+					[updateProjects]="updateProjects"
+					(onClick)="clickProject($event);">
+				</administration-page>
+			</div>
+
+			<div id="selected-project" *ngIf="selectedProjectPgID" [class.animate-slide-in]="selectedProjectPgID" [class.animate-slide-out]="animateSwitchBack" [class.out-of-view]="!selectedProjectPgID || animateSwitchBack" [hidden]="hideProjectPage">
+				<project-page
+					[accounts]="accounts"
+					[contacts]="contacts"
+					[contactIdToEndUserMap]="contactIdToEndUserMap"
+					[accountList]="accountList"
+					[selectedProjectPgID]="selectedProjectPgID"
+					[animateIn]="selectedProjectPgID"
+					[animateOut]="animateSwitchBack"
+					[outOfView]="!selectedProjectPgID || animateSwitchBack"
+					[displayed]="onProjectPage"
+					(onClickBack)="backToSearch($event);">
+				</project-page>
+			</div>
+		</div>
+	</div>
+	<preloader *ngIf="loading"></preloader>
+</div>

@@ -1,0 +1,121 @@
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" type="text/css" href="style/style.css" />
+
+<!-- Roboto Google font -->
+<link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+
+<title>TimeTracker</title>
+
+<script type="text/javascript">
+var menuOpen = false;
+function toggleNavMenu() {
+	document.getElementById("navMenu").style.display = (menuOpen ? "none" : "block");
+	if (!menuOpen) {
+		document.getElementById("menuToggle").className += "open";
+	} else {
+		document.getElementById("menuToggle").className = "";
+	}
+	menuOpen = !menuOpen;
+}
+</script>
+
+</head>
+<body>
+
+<div id="navbar">
+	<div id="navbar-elements">
+		<a href="index.html" id="navbar-logo"><img src="images/RS-SmallBug.png" /></a>
+		<div id="navbar-links">
+			<a href="setup.html"><span>Setup</span></a>
+			<a href="walkthrough.html"><span>Walkthrough</span></a>
+			<a href="https://radialspark.com/contact/"><span>Contact Us</span></a>
+		</div>
+	</div>
+	<div id="navbar-compact">
+		<a href="index.html" id="navbar-logo"><img src="images/RS-logo.png" /></a>
+		<span onclick="toggleNavMenu();" id="menuToggle">&#9776;</span>
+		<div class="dropdown" id="navMenu">
+			<div class="item"><a href="setup.html">Setup</a></div>
+			<div class="item"><a href="walkthrough.html">Walkthrough</a></div>
+			<div class="item"><a href="https://radialspark.com/contact/">Contact Us</a></div>
+		</div>
+	</div>
+</div>
+
+<div id="header">
+	<div id="title"><img src="images/timetracker_logo_black.png" /></div>
+	<div id="buttons">
+		<a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t41000001Xc74" target="_blank"><img src="images/dts_light.png" class="install-button" /></a>
+		<a href="https://heroku.com/deploy?template=https://github.com/radialspark/timetracker" target="_blank"><img src="images/dth_light.png" class="install-button" /></a>
+		<a href="https://raw.githubusercontent.com/radialspark/timetracker/master/heroku-connect-config.json" download><img src="images/hcc_light.png" class="install-button" /></a>
+	</div>
+</div>
+
+<div id="body">
+	<div class="block">
+		<span class="heading">What is it?</span>
+		<div class="content">
+			<p>TimeTracker is a powerful quick-start solution that integrates Heroku and Salesforce to provide a solid foundation of standard time-tracking functionality, but with the core principle of supporting custom development, extension, and integration on top of it.</p>
+
+			<p>Out of the box, TimeTracker supports employee time entry/timesheet submission, the ability to review historic data, configurable multi-level approval processes, project administration, and user administration. All of this functionality is provided through a sleek client-side UI that is fast and responsive, with the intention of supporting development of integrated mobile products using the same UI.</p>
+
+			<p>TimeTracker's stand-alone user system does not require a Salesforce user license to access and utilize the application, allowing collection of data from anyone. To leverage this data, however, the application syncs its time-tracking data back to Salesforce using Heroku Connect for back office accessibility and reportability. The app uses its own user system for handling credentials and security outside of Salesforce, along with a robust, self-documenting API. This central API can be used both to extend the application through custom development and to integrate external products with TimeTracker, ensuring that business logic is consistent in all contexts.</p>
+
+			<p>TimeTracker is built on top of a powerful, but approachable, NodeJS application stack built for hosting on Heroku that leverages the Angular 2, Gulp, and Loopback frameworks (<a href="https://radialspark.github.io/plan-app-accelerator">check it out here</a>). Angular 2 drives the responsive, client-side UI, while Loopback provides the stand-alone user system and a centralized API for extending the application or integrating it with out products.</p>
+		</div>
+
+		<!-- <div class="top-link">
+			<a href="#header">Top &uarr;</a>
+		</div> -->
+	</div>
+
+	<div class="block features clearfix">
+		<div class="feature">
+			<div class="feature-icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+			<div class="feature-title">Timetracking</div>
+			<div class="feature-description">Time entry and timesheet submission</div>
+		</div>
+		<div class="feature">
+			<div class="feature-icon"><i class="fa fa-check" aria-hidden="true"></i></div>
+			<div class="feature-title">Approval Processes</div>
+			<div class="feature-description">Multi-stage, easily configurable</div>
+		</div>
+		<div class="feature">
+			<div class="feature-icon"><i class="fa fa-calendar-o" aria-hidden="true"></i></div>
+			<div class="feature-title">Administration</div>
+			<div class="feature-description">Project and user administration</div>
+		</div>
+		<div class="feature">
+			<div class="feature-icon"><i class="fa fa-database" aria-hidden="true"></i></div>
+			<div class="feature-title">Review Historic Data</div>
+			<div class="feature-description">Easily review past timesheet data</div>
+		</div>
+	</div>
+</div>
+
+<div id="footer">
+	<div id="info"><span>Copyright &copy; 2016 RadialSpark, All rights reserved.</span></div>
+</div>
+
+<script type="text/javascript">
+piAId = '133661';
+piCId = '8796';
+(function() {
+  function async_load(){
+    var s = document.createElement('script'); s.type = 'text/javascript';
+    s.src = ('https:' == document.location.protocol ? 'https://pi' : 'http://cdn') + '.pardot.com/pd.js';
+    var c = document.getElementsByTagName('script')[0]; c.parentNode.insertBefore(s, c);
+  }
+  if(window.attachEvent) { window.attachEvent('onload', async_load); }
+  else { window.addEventListener('load', async_load, false); }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<div class="card active entry" [class.rejected]="entry.status__c == 'Rejected'" [class.animate]="toggled">
+	<div class="error-message-container" *ngIf="validationError">
+		<div class="error-message" *ngIf="validationError">{{validationError}}</div>
+	</div>
+	<div>
+		<select [(ngModel)]="project" [class.placeholder]="project == null" [focus]="focusProject">
+			<option value="null" disabled *ngIf="project == null">Select a project</option>
+			<option [value]="project" disabled *ngIf="project">{{projects[project].name}}</option>
+			<option [value]="pgid" *ngFor="let pgid of projectPgids | contributorOptions:projects">
+				{{projects[pgid].name}}
+			</option>
+		</select>
+	</div>
+	<div class="row">
+		<!--<div class="col-sm-6 col-lg-4">-->
+			<div class="input-group input-group">
+				<span class="input-group-addon" id="sizing-addon1">Start</span>
+				<input type="time" class="form-control" [(ngModel)]="startTime" aria-describedby="sizing-addon1">
+			</div>
+			<div class="input-group input-group">
+				<span class="input-group-addon" id="sizing-addon1">End</span>
+				<input type="time" class="form-control" [(ngModel)]="endTime" aria-describedby="sizing-addon1">
+			</div>
+		<!--</div>
+		<div class="col-sm-6 col-lg-4">
+		</div>-->
+	</div>
+	<textarea [(ngModel)]="description" class="form-control" placeholder="Description" (keydown)="handleKeydown($event);"></textarea>
+	<div class="row">
+		<div class="action-button" *ngIf="entry.pg_id__c" (click)="delete()">DELETE</div>
+		<div class="action-button pull-right" (click)="save()">SAVE</div>
+		<div class="action-button pull-right" (click)="cancel()">CANCEL</div>
+	</div>
+</div>
+<preloader *ngIf="loading"></preloader>

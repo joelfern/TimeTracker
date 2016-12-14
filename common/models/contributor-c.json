@@ -1,0 +1,66 @@
+{
+  "name": "tt_contributor__c",
+  "plural": "Contributors",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "postgresql": {
+    "schema": "salesforce"
+  },
+  "properties": {
+	"pg_id__c": {
+	  "type": "number",
+	  "id": true
+	},
+    "project__r__pg_id__c": {
+      "type": "number",
+      "required": true
+    },
+    "createddate": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "contact__r__pg_id__c": {
+      "type": "number",
+      "required": true
+    },
+    "systemmodstamp": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+	  "project": {
+		  "type": "belongsTo",
+		  "model": "tt_project__c",
+		  "foreignKey": "project__r__pg_id__c"
+	  }
+  },
+  "acls": [
+	{
+		"accessType": "*",
+		"principalType": "ROLE",
+		"principalId": "$everyone",
+		"permission": "DENY"
+	},
+	{
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "createContributor"
+    },
+	{
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "deleteContributor"
+    }
+  ],
+  "methods": {}
+}

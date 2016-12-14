@@ -1,0 +1,32 @@
+<div id="contributors-component">
+	<div class="card expandable-card" [class.active]="expanded" [class.animate]="hasBeenToggled">
+		<div class="error-message-container" *ngIf="errorMessage">
+			<div class="error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+		</div>
+		<div class="header">
+			<div class="title clickable" (click)="toggleExpanded()">Contributors</div>
+		</div>
+		<div class="card" style="padding-top: 5px;" *ngIf="expanded">
+			<div class="contacts">
+				<div *ngFor="let contributor of contributorList" class="contact contributor-contact">
+					<span class="contact-name">{{contacts[contributor.contact__r__pg_id__c].lastname}}, {{contacts[contributor.contact__r__pg_id__c].firstname}}</span>
+					<span class="remove-button" (click)="removeContributor(contributor);">&times;</span>
+				</div>
+				<div class="add-contact contributor-add-contact" [class.noContacts]="!contributorList.length">
+					<div class="new-contact-form" *ngIf="addingContact">
+						<typeahead
+							[inputConfiguration]="typeaheadConfiguration.inputs"
+							[options]="unusedContactArray"
+							(onSelect)="typeaheadConfiguration.outputs.onSelect($event)">
+						</typeahead>
+						<div class="new-contact-form-buttons">
+							<span class="glyphicon glyphicon-remove-circle" (click)="cancelAddContact();"></span>
+						</div>
+					</div>
+					<span class="add-button glyphicon glyphicon-plus" *ngIf="!addingContact && contributorList.length" (click)="toggleAddingContact();"></span>
+					<button class="add-first-button action-button" *ngIf="!addingContact && !contributorList.length" (click)="toggleAddingContact();">+ Add Contributor</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

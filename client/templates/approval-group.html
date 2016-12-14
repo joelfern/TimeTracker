@@ -1,0 +1,67 @@
+<div class="approval-group">
+	<div *ngIf="approvals.length > 0 || !employee" class="card expandable-card approval-group-card" [class.active]="expanded" [class.animate]="hasBeenToggled">
+		<div class="header">
+			<div class="title clickable" (click)="toggleExpanded()">
+				<span *ngIf="employee">{{ employee.name }}</span><span *ngIf="!employee">All employees</span>
+				<span class="employee-hours pull-right">{{ totalTime | msToHours }} hours</span>
+			</div>
+			<button class="pull-right material-button" (click)="displayedConfirmation = 'approveAll'">Approve All</button>
+			<button class="pull-right action-button approve-all-button" (click)="displayedConfirmation = 'approveAll'"><span class="glyphicon glyphicon-ok"></span> All</button>
+		</div>
+		<confirmation-modal *ngIf="displayedConfirmation === 'approveAll'"
+			[title]="'Approve All'"
+			[body]="'You are about to approve ' + approvals.length + ' approval(s). This cannot be undone.'"
+			[confirm]="'Approve'"
+			[reject]="'Cancel'"
+			[name]="'approveAll'"
+			(onResponse)="handleConfirmation($event)"
+		></confirmation-modal>
+		<div *ngIf="expanded && summarizedProjects">
+			<div class="card summary-card" *ngIf="!alwaysShowDetails()">
+				<span class="header">
+					<span class="title">Summary</span>
+				</span>
+				<table class="summary-table">
+					<tbody>
+						<tr *ngFor="let project of summarizedProjects" [class.clickable]="projectSummaries[project].time !== 0" [class.active]="filter.projects.includes(project)" [class.disabled]="projectSummaries[project].time == 0">
+							<td (click)="toggleProjectFilter(project)">{{ projectSummaries[project].project.name }}</td>
+							<td (click)="toggleProjectFilter(project)" class="summary-item-hours">{{ projectSummaries[project].time | msToHours }} hours</td>
+							<td class="summary-button-cell">
+								<button class="action-button summary-approve-button" [class.disabled]="projectSummaries[project].time == 0" (click)="stagedApproveProject = project; displayedConfirmation = 'approveProject'" [disabled]="projectSummaries[project].time == 0">Approve</button>
+								<button class="action-button summary-approve-mobile-button" [class.disabled]="projectSummaries[project].time == 0" (click)="stagedApproveProject = project; displayedConfirmation = 'approveProject'" [disabled]="projectSummaries[project].time == 0"><span class="glyphicon glyphicon-ok"></span></button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<confirmation-modal *ngIf="displayedConfirmation === 'approveProject'"
+					[title]="'Approve Project'"
+					[body]="'You are about to approve ' + projectSummaries[stagedApproveProject].entryCount + ' approval(s) for ' + projectSummaries[stagedApproveProject].project.name + '. This cannot be undone.'"
+					[confirm]="'Approve'"
+					[reject]="'Cancel'"
+					[name]="'approveProject'"
+					(onResponse)="handleConfirmation($event)"
+				></confirmation-modal>
+			</div>
+			<div class="separator" *ngIf="approvals.length > 0">
+				<a class="text-center action-button" *ngIf="!showDetails && !alwaysShowDetails() && !filter.projects.length" (click)="showDetails = true;">View Entries</a>
+				<a class="text-center action-button" *ngIf="(showDetails && !alwaysShowDetails()) || filter.projects.length" (click)="hideDetails()">Hide Entries</a>
+			</div>
+			<span *ngIf="showDetails || alwaysShowDetails() || filter.projects.length">
+				<entry-view *ngFor="let approval of approvals | filterApproval:filter" 
+					[entry]="approval.entry" 
+					[showDate]="true" 
+					[approval]="approval" 
+					[project]="projects[approval.entry.project__r__pg_id__c]" 
+					[employee]="employee || employees[timesheets[approval.entry.timesheet__r__pg_id__c].employee__r__pg_id__c]"
+					[hideStatus]="true"
+					(onApprove)="approveEntry(approval)" 
+					(onReject)="handleReject(approval)">
+				</entry-view>
+				<!-- <div class="separator">
+					<a class="linkButton" *ngIf="!alwaysShowDetails() && (approvals | filterApproval:filter).length > 3">Back to summary</a>
+					<a class="linkButton" *ngIf="alwaysShowDetails() && (approvals | filterApproval:filter).length > 3">Back to top</a>
+				</div> -->
+			</span>
+		</div>
+	</div>
+</div>

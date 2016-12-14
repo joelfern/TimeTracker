@@ -1,0 +1,64 @@
+<div class="card entry entry-view-card" [class.rejected]="entry.status__c == 'Rejected'" 
+			[class.approved]="entry.status__c == 'Submitted' || entry.status__c == 'Approved'"
+			[class.clickable]="entry.status__c != 'Submitted' && entry.status__c != 'Approved'" 
+			[class.animate]="toggled" 
+			(click)="handleClick()">
+	<div class="error-message-container" *ngIf="errorMessage">
+		<div class="error-message">{{errorMessage}}</div>
+	</div>
+	<div class="title">{{project.name}}</div>
+	<div class="status" *ngIf="!hideStatus && (entry.status__c == 'Rejected' || entry.status__c == 'Submitted' || entry.status__c == 'Approved')">{{ entry.status__c }}</div>
+	<div class="hours" *ngIf="hours">{{hours | number:'.2'}}<br />hours</div>
+	<div class="subtitle" *ngIf="showDate">{{entry.start | date}}
+		<span *ngIf="employee">&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{{employee.name}}</span>
+	</div>
+	<div class="row view-times">
+		<div class="input-group input-group">
+			<span class="input-group-addon view">Start</span>
+			<span class="form-control time" aria-describedby="sizing-addon1">{{entry.start | date:'shortTime'}}</span>
+		</div>
+		<div class="input-group input-group">
+			<span class="input-group-addon view">End</span>
+			<span class="form-control time" aria-describedby="sizing-addon1">{{entry.end | date:'shortTime'}}</span>
+		</div>
+	</div>
+	<div class="description">{{entry.description__c}}</div>
+	<div class="rejection-comment" *ngIf="entry.status__c == 'Rejected' && entry.approvals && entry.approvals[0] && entry.approvals[0].comment__c">
+		<span class="glyphicon glyphicon-comment"></span>
+		{{entry.approvals[0].comment__c}}
+	</div>
+	<div class="row" *ngIf="approval">
+		<div *ngIf="!displayHistory && !rejecting" class="action-button pull-left" (click)="showHistory()">HISTORY</div>
+		<div *ngIf="displayHistory" class="action-button pull-left hide-history-button" (click)="displayHistory = false;">HIDE HISTORY</div>
+		<div *ngIf="displayHistory" class="action-button pull-left hide-history-mobile-button" (click)="displayHistory = false;">HIDE</div>
+		<div *ngIf="!rejecting" class="action-button pull-right" (click)="onApprove.emit(approval);">APPROVE</div>
+		<div *ngIf="!rejecting" class="action-button pull-right" (click)="startReject()">REJECT</div>
+		<div *ngIf="rejecting" class="action-button pull-left" (click)="cancelReject()">CANCEL</div>
+		<div *ngIf="rejecting" class="action-button pull-right" (click)="reject()">SUBMIT</div>
+	</div>
+	<div *ngIf="displayHistory && approvalHistory">
+		<span *ngIf="!approvalHistory.length">Entry has no previous approval history.</span>
+		<!-- <table *ngIf="approvalHistory.length" class="table table-striped approval-history-table">
+			<tbody>
+				<tr *ngFor="let approval of approvalHistory">
+					<td>{{approval.approvalStage.display_name__c}}</td>
+					<td>{{approval.status__c}}</td>
+					<td>{{approval.approvingContact.name}}</td>
+					<td *ngIf="approval.time">{{approval.time | date:"medium"}}</td>
+				</tr>
+			</tbody>
+		</table> -->
+		<table *ngIf="approvalHistory.length" class="table table-striped approval-history-table">
+			<tbody>
+				<tr *ngFor="let approval of approvalHistory">
+					<td><b>{{approval.status__c}}</b> by {{approval.approvingContact.name}}<span *ngIf="approval.time"> on {{approval.time | date}}</span>.</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div *ngIf="rejecting">
+		<textarea [(ngModel)]="comment" class="form-control" placeholder="Add a comment..." (keyup.enter)="reject()"></textarea>
+	</div>
+</div>
+<preloader *ngIf="loading"></preloader>
+

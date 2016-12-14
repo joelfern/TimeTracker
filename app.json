@@ -1,0 +1,28 @@
+{
+	"name": "TimeTracker",
+	"description": "Time tracking and approvals application utilizing Heroku Connect",
+	"website": "https://cloud-software-llc.github.io/time-tracker",
+	"repository": "https://github.com/Cloud-Software-LLC/time-tracker",
+	"success_url": "/page",
+	"addons": [ {
+		"plan": "heroku-postgresql:hobby-dev"
+	}, {
+		"plan": "heroku-postgresql:hobby-dev",
+		"as": "HEROKUCONNECT_DB"
+	}, {
+		"plan": "herokuconnect:demo"
+	}, {
+		"plan": "sendgrid:starter"
+	} ],
+	"env": {
+		"ROOT_DOMAIN": {
+			"description": "The public facing domain of your app. (Usually http://app-name.herokuapp.com)"
+		},
+		"NOREPLYEMAIL_ADDRESS": {
+			"description": "No reply email for sending reset password and notification emails to users."
+		}
+	},
+	"buildpacks": [ {
+		"url": "heroku/nodejs"
+	} ]
+}

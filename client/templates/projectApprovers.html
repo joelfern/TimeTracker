@@ -1,0 +1,99 @@
+<div id="project-approvers" class="card expandable-card" [class.active]="expanded" [class.animate]="hasBeenToggled">
+	<div class="error-message-container" *ngIf="errorMessage">
+		<div class="error-message" *ngIf="errorMessage">{{errorMessage}}</div>
+	</div>
+	<div class="header">
+		<div class="title clickable" (click)="toggleExpanded()">Approval Stages</div>
+		<button class="pull-right material-button" *ngIf="!editMode && expanded" (click)="showEditConfirmation = true;">
+			Edit<span class="no-phone"> Stages</span>
+		</button>
+		<button class="pull-right action-button" *ngIf="editMode && expanded" (click)="addStage();">
+			<span class="glyphicon glyphicon-plus"></span>
+			<span class="no-phone"> Add Stage</span>
+		</button>
+	</div>
+	<div class="approval-stages" *ngIf="expanded && !editMode">
+		<div *ngFor="let stage of project['approvalStages']">
+			<div class="stage-number">
+				{{stage.stage_number__c}}
+			</div>
+			<approval-stage
+				[stage]="stage"
+				[contactIdToEndUserMap]="contactIdToEndUserMap"
+				[contacts]="contacts"
+			>
+			</approval-stage>
+		</div>
+	</div>
+	<div class="approval-stages" *ngIf="expanded && editMode">
+		<div *ngIf="!stagesToEdit.length" style="text-align: center; padding: 20px 0px;">
+			No approval stages to display, <a (click)="addStage();" class="action-link">click here</a> to add one.
+		</div>
+		<div *ngIf="stagesToEdit.length" class="dragging-message">
+			Drag stages to reorder.
+			<br />Drag to bottom to delete.
+		</div>
+
+		<div *ngFor="let stage of stagesToEdit;" >
+			<div class="stage-shift-buttons no-phone" [class.noApprovers]="!stage.approvers.length">
+				<a (click)="shiftStage(stage, -1);"><span class="glyphicon glyphicon-menu-up"></span></a>
+				<a (click)="shiftStage(stage, 1);"><span class="glyphicon glyphicon-menu-down"></span></a>
+			</div>
+			<approval-stage
+				[stage]="stage"
+				[contactIdToEndUserMap]="contactIdToEndUserMap"
+				[contacts]="contacts"
+				[editMode]="true"
+				[draggedStage]="!draggingStage || stage === draggingStage"
+				(pan)="dragStage($event, stage)"
+			>
+			</approval-stage>
+			<div class="stage-delete-button no-phone" [class.noApprovers]="!stage.approvers.length">
+				<a (click)="deleteStage(stage);"><span class="glyphicon glyphicon-remove"></span></a>
+			</div>
+		</div>
+		<div 
+			class="dragging-stage" 
+			*ngIf="draggingStage"
+			[style.left]="draggingPosition.x + 'px'"
+			[style.top]="draggingPosition.y  + 'px'"
+			[style.width]="draggingWidth + 'px'"
+			[class.deleting]="deleting"
+		>
+			<approval-stage
+				[stage]="draggingStage"
+				[contactIdToEndUserMap]="contactIdToEndUserMap"
+				[contacts]="contacts"
+				[editMode]="true"
+				[draggingStage]="true"
+			>
+			</approval-stage>
+		</div>
+	</div>
+	<div id="dragging-delete-button" *ngIf="draggingStage" [class.active]="deleting">
+		<span class="glyphicon glyphicon-trash"></span>
+	</div>
+	<div class="stage-edit-buttons" *ngIf="editMode && expanded" [class.no-phone]="draggingStage">
+		<button class="action-button" (click)="cancelChanges();">Cancel</button>
+		<button class="action-button" (click)="checkStageOrderForSaveConfirmation();">Save</button>
+	</div>
+</div>
+<confirmation-modal
+	*ngIf="showEditConfirmation"
+	[title]="editConfirmation.title"
+	[body]="editConfirmation.body"
+	[confirm]="editConfirmation.confirm"
+	[reject]="editConfirmation.reject"
+	[name]="editConfirmation.name"
+	(onResponse)="handleConfirmation($event);">
+</confirmation-modal>
+<confirmation-modal
+	*ngIf="showSaveConfirmation"
+	[title]="saveConfirmation.title"
+	[body]="saveConfirmation.body"
+	[confirm]="saveConfirmation.confirm"
+	[reject]="saveConfirmation.reject"
+	[name]="saveConfirmation.name"
+	(onResponse)="handleConfirmation($event);">
+</confirmation-modal>
+<preloader *ngIf="loading"></preloader>

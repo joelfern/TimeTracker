@@ -1,0 +1,13 @@
+<div *ngIf="project" class="card project-card clickable" (click)="onClick.emit(project.pg_id__c)">
+	<span class="name">{{project.name}}</span>
+	<span class="account">{{project.account.name}}</span>
+	<span class="times" *ngIf="project.start__c && project.end__c">
+		{{project.localStart | date}} <span class="glyphicon glyphicon-arrow-right"></span> {{project.localEnd | date}}
+	</span>
+	<span class="times" *ngIf="project.start__c && !project.end__c">
+		Start: {{project.localStart | date}}
+	</span>
+	<span class="times" *ngIf="!project.start__c && project.end__c">
+		End: {{project.localEnd | date}}
+	</span>
+</div>

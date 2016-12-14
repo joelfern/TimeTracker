@@ -1,0 +1,43 @@
+<div id="past-timesheets">
+	<div class="card">
+		<div class="header">
+			<div class="title">All Timesheets</div>
+		</div>
+		<div class="table-responsive" *ngIf="timesheets && timesheets.length">
+			<table class="table-striped">
+				<thead>
+					<tr>
+						<th>Week</th>
+						<th>Hours</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody class="past-timesheets-table">
+					<tr class="clickable" *ngFor="let timesheet of timesheets" (click)="selectTimesheet(timesheet)"
+						[class.needs-attention]="timesheet.status__c == 'Needs Attention'"
+						[class.submitted]="timesheet.status__c == 'Submitted'"
+						[class.open]="timesheet.status__c == 'Open'">
+						<td style="width=40%">{{timesheet.localStart | date}}</td>
+						<td style="width=30%">{{timesheet.totalHours}} hours</td>
+						<td style="width=30%">{{timesheet.status__c}}</td>
+					</tr>
+				</tbody>
+				<tbody class="past-timesheets-mobile-table">
+					<tr class="clickable" *ngFor="let timesheet of timesheets" (click)="selectTimesheet(timesheet)"
+						[class.needs-attention]="timesheet.status__c == 'Needs Attention'"
+						[class.submitted]="timesheet.status__c == 'Submitted'"
+						[class.open]="timesheet.status__c == 'Open'">
+						<td style="width=40%">{{timesheet.localStart | date:'M/d/yy'}}</td>
+						<td style="width=30%">{{timesheet.totalHours}}</td>
+						<td style="width=30%" *ngIf="timesheet.status__c != 'Needs Attention'">{{timesheet.status__c}}</td>
+						<td style="width=30%" *ngIf="timesheet.status__c == 'Needs Attention'">Needs Attn</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p *ngIf="timesheets && !timesheets.length" class="text-center">
+			You do not yet have any timesheets.
+		</p>
+	</div>
+	<preloader *ngIf="loading"></preloader>
+</div>
