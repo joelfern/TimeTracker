@@ -1,7 +1,7 @@
 # TimeTracker
 ## by RadialSpark, LLC.
 
-TimeTracker is a basic application provides a fully-functioning foundation for customized time-tracking on Heroku that syncs back to Salesforce. It is built on an evolution of the MEAN stack that we are calling the PLAN stack: PostgreSQL, Loopback, Angular 2, and Node.js.
+TimeTracker is a basic application which provides a fully-functioning foundation for customized time-tracking on Heroku that syncs back to Salesforce. It is built on an evolution of the MEAN stack that we are calling the PLAN stack: PostgreSQL, Loopback, Angular 2, and Node.js.
 
 ### Deploy
 
