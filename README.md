@@ -20,15 +20,15 @@ TimeTracker is a basic application which provides a fully-functioning foundation
 </p>
 
 1. Install the TimeTracker unmanaged package to your Salesforce org.
-<br />[Step-by-step Salesforce instructions](https://radialspark.github.io/timetracker/setup.html#salesforce)
+<br />[Step-by-step Salesforce instructions](docs/setup.html#salesforce)
 
 2. Deploy a copy of the app to Heroku.
-<br />[Step-by-step Heroku instructions](https://radialspark.github.io/timetracker/setup.html#heroku)
+<br />[Step-by-step Heroku instructions](docs/setup.html#heroku)
 
 3. Connect the Heroku Connect add-on to your Salesforce org, and import the configuration json.
-<br />[Step-by-step Heroku Connect instructions](https://radialspark.github.io/timetracker/setup.html#heroku-connect)
+<br />[Step-by-step Heroku Connect instructions](docs/setup.html#heroku-connect)
 
 4. Restart your Heroku App dynos.
-<br />[Step-by-step Heroku Dyno Restart instructions](https://radialspark.github.io/timetracker/setup.html#heroku-dyno-restart)
+<br />[Step-by-step Heroku Dyno Restart instructions](docs/setup.html#heroku-dyno-restart)
 
-4. Follow the [user setup instructions](https://radialspark.github.io/timetracker/setup.html#user-setup) to create a user and delete the default user.
+4. Follow the [user setup instructions](docs/setup.html#user-setup) to create a user and delete the default user.
