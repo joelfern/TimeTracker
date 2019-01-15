@@ -5,17 +5,17 @@ TimeTracker is a basic application which provides a fully-functioning foundation
 
 ### Deploy
 
-<p align=center>
+<p style="text-align: center;">
 <a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04t41000001Xbyj" target="_blank">
-<img src="./docs/images/dts_light.png" alt="Deploy to Salesforce" height="50px"/>
+    <img src="./docs/images/dts_light.png" alt="Deploy to Salesforce" height="50px"/>
 </a>
 &nbsp;&nbsp;&nbsp;
 <a href="https://heroku.com/deploy" target="_blank">
-<img src="./docs/images/dth_light.png" alt="Deploy to Heroku" height="50px"/>
+    <img src="./docs/images/dth_light.png" alt="Deploy to Heroku" height="50px"/>
 </a>
 &nbsp;&nbsp;&nbsp;
-<a href="https://cdn.rawgit.com/RadialSpark/timetracker/master/docs/download-heroku-connect.html">
-<img src="./docs/images/hcc_light.png" alt="Download Heroku Connect Config" height="50px"https://cdn.rawgit.com/RadialSpark/timetracker-temp/master/heroku-connect-config.json/>
+<a href="./docs/download-heroku-connect.html">
+    <img src="./docs/images/hcc_light.png" alt="Download Heroku Connect Config" height="50px" />
 </a>
 </p>
 
