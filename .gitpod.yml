@@ -1,0 +1,27 @@
+image:
+  file: .gitpod.Dockerfile
+tasks:
+  - init: ~/wkspc/init.sh
+    command: ~/wkspc/command.sh
+github:
+  prebuilds:
+    addBadge: true
+    addCheck: false
+    addComment: true
+    addLabel: false
+vscode:
+  extensions:
+    - Angular.ng-template@0.901.0:YBOQRthNnMUfqpVxM7goXg==
+    - dbaeumer.vscode-eslint@2.1.13:5sYlSD6wJi5s3xqD8hupUw==
+    - EditorConfig.EditorConfig@0.15.1:FrqszxLxLSuQFctJK9WrSg==
+    - esbenp.prettier-vscode@5.7.1:4Zx39KyQMoIz7x94PSmDmQ==
+    - octref.vetur@0.24.0:wQwUWmMBrV2Y+ZN1GPaapg==
+    - salesforce.salesforcedx-vscode@48.8.0:mgUCLr8fnWOu30Y9ooZsWg==
+    - salesforce.salesforcedx-vscode-apex@48.8.0:cqMQ0UeDZRT7l0dl7JXv9Q==
+    - salesforce.salesforcedx-vscode-apex-debugger@48.8.0:akgRnwHAzImjmGgSH5pxVA==
+    - salesforce.salesforcedx-vscode-apex-replay-debugger@48.8.0:tFQKkP8zyk5WwckH2w+GNQ==
+    - salesforce.salesforcedx-vscode-core@48.8.0:YXQTeJzpvlgvhiEJHuqYRQ==
+    - salesforce.salesforcedx-vscode-lightning@48.8.0:L/BB0x00nfJqTcN7rArgvQ==
+    - salesforce.salesforcedx-vscode-lwc@48.8.0:dJ0luHcHENOvN33DjouZhg==
+    - salesforce.salesforcedx-vscode-visualforce@48.8.0:Pk8o5UnJN2nRnau+ZnoZtQ==
+    - redhat.vscode-xml@0.13.0:WQPL8Tu58zSAFqeCYTgkAw==
