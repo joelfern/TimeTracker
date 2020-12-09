@@ -11,12 +11,12 @@ module.exports = function ( app, callback ) {
 			password: 'password',
 			firstName: 'default',
 			lastName: 'admin',
-			email: 'test@cloudsoftwarellc.com'
+			email: 'test@radialspark.com'
 		};
 		// Create a filter to retrieve (or create) the new user defined above
 		var filter = {
 			where: {
-				email: 'test@cloudsoftwarellc.com'
+				email: 'test@radialspark.com'
 			}
 		};
 		// if the user somehow already exists, then just find that user
