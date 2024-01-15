@@ -2,7 +2,7 @@
   "name": "TimeTracker",
   "version": "0.0.1",
   "engines": {
-    "node": "12.x"
+    "node": "5.x"
   },
   "description": "Time-Tracking App that integrates Heroku and Salesforce",
   "author": "Justin Ludlow <jludlow@radialspark.com>",
