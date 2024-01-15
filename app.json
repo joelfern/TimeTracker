@@ -5,9 +5,9 @@
 	"repository": "https://github.com/Cloud-Software-LLC/time-tracker",
 	"success_url": "/page",
 	"addons": [ {
-		"plan": "heroku-postgresql:hobby-dev"
+		"plan": "heroku-postgresql:mini"
 	}, {
-		"plan": "heroku-postgresql:hobby-dev",
+		"plan": "heroku-postgresql:mini",
 		"as": "HEROKUCONNECT_DB"
 	}, {
 		"plan": "herokuconnect:demo"
